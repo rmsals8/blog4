@@ -16,6 +16,10 @@ RUN echo "upload_max_filesize = 64M" >> /usr/local/etc/php/conf.d/uploads.ini &&
 RUN mkdir -p /var/www/html/wp-content/uploads && \
     chown -R www-data:www-data /var/www/html/wp-content/uploads
 
+# --- Ensure WordPress core exists (some runtimes mount empty volume) ---
+RUN curl -sSL https://wordpress.org/latest.tar.gz | tar -xz --strip-components=1 -C /var/www/html \
+    && chown -R www-data:www-data /var/www/html
+
 # Change Apache listen port from 80 ➜ 8080 to avoid privileged port requirement in non-root containers (e.g., Cloudtype)
 RUN sed -i 's/80/8080/g' /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/default-ssl.conf
 
