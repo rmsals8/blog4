@@ -4,12 +4,16 @@ services:
   wordpress:
     build: .
     ports:
-      - "8090:8080"
+      - "8090:80"
+    # For local development you can place real credentials in a .env file (ignored by git).
+    # Compose will automatically load variables from .env and substitute below.
+    env_file:
+      - .env
     environment:
-      WORDPRESS_DB_HOST: svc.sel4.cloudtype.app:30333
-      WORDPRESS_DB_USER: blog
-      WORDPRESS_DB_PASSWORD: 1q2w3e
-      WORDPRESS_DB_NAME: blog
+      WORDPRESS_DB_HOST: "${WORDPRESS_DB_HOST:-example-host}"
+      WORDPRESS_DB_USER: "${WORDPRESS_DB_USER:-example-user}"
+      WORDPRESS_DB_PASSWORD: "${WORDPRESS_DB_PASSWORD:-example-pass}"
+      WORDPRESS_DB_NAME: "${WORDPRESS_DB_NAME:-example-db}"
       WORDPRESS_DEBUG: 1
     volumes:
       - wordpress_data:/var/www/html
