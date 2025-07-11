@@ -19,5 +19,8 @@ RUN mkdir -p /var/www/html/wp-content/uploads && \
 # Change Apache listen port from 80 ➜ 8080 to avoid privileged port requirement in non-root containers (e.g., Cloudtype)
 RUN sed -i 's/80/8080/g' /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/default-ssl.conf
 
+# Suppress "Could not reliably determine the server's fully qualified domain name" warning
+RUN echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf && a2enconf servername
+
 # Expose new application port
 EXPOSE 8080
