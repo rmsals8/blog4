@@ -1,0 +1,193 @@
+<?php
+// 프로젝트 관리자 페이지
+function resume_projects_admin_page() {
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+
+    $message = '';
+    
+    // POST 데이터 처리
+    if (isset($_POST['submit_projects'])) {
+        // 보안 체크
+        check_admin_referer('resume_projects_nonce');
+        
+        $projects = array();
+        if (isset($_POST['project_title']) && is_array($_POST['project_title'])) {
+            foreach ($_POST['project_title'] as $index => $title) {
+                if (!empty($title)) {
+                    $projects[] = array(
+                        'title' => sanitize_text_field($title),
+                        'description' => wp_kses_post($_POST['project_description'][$index]),
+                        'duration' => sanitize_text_field($_POST['project_duration'][$index]),
+                        'role' => sanitize_text_field($_POST['project_role'][$index]),
+                        'technologies' => sanitize_text_field($_POST['project_technologies'][$index]),
+                        'url' => esc_url_raw($_POST['project_url'][$index])
+                    );
+                }
+            }
+        }
+        update_option('resume_projects', $projects);
+        
+        // 프로젝트 이미지 처리
+        if (isset($_FILES['project_image'])) {
+            require_once(ABSPATH . 'wp-admin/includes/image.php');
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+            require_once(ABSPATH . 'wp-admin/includes/media.php');
+            
+            foreach ($_FILES['project_image']['name'] as $index => $value) {
+                if ($_FILES['project_image']['size'][$index] > 0) {
+                    $_FILES['project_image_upload'] = array(
+                        'name' => $_FILES['project_image']['name'][$index],
+                        'type' => $_FILES['project_image']['type'][$index],
+                        'tmp_name' => $_FILES['project_image']['tmp_name'][$index],
+                        'error' => $_FILES['project_image']['error'][$index],
+                        'size' => $_FILES['project_image']['size'][$index]
+                    );
+                    
+                    $attachment_id = media_handle_upload('project_image_upload', 0);
+                    
+                    if (!is_wp_error($attachment_id)) {
+                        $projects[$index]['image_id'] = $attachment_id;
+                    }
+                } elseif (isset($_POST['project_image_id'][$index])) {
+                    $projects[$index]['image_id'] = intval($_POST['project_image_id'][$index]);
+                }
+            }
+            update_option('resume_projects', $projects);
+        }
+        
+        $message = '<div class="notice notice-success"><p>프로젝트가 성공적으로 저장되었습니다.</p></div>';
+    }
+    
+    // 저장된 데이터 불러오기
+    $projects = get_option('resume_projects', array());
+    
+    ?>
+    <div class="wrap">
+        <h1>프로젝트 관리</h1>
+        <?php echo $message; ?>
+        
+        <form method="post" enctype="multipart/form-data">
+            <?php wp_nonce_field('resume_projects_nonce'); ?>
+            
+            <div id="projects-container">
+                <?php foreach ($projects as $index => $project): ?>
+                    <div class="project-item">
+                        <h3>프로젝트 #<?php echo $index + 1; ?></h3>
+                        <table class="form-table">
+                            <tr>
+                                <th><label for="project_title_<?php echo $index; ?>">프로젝트명</label></th>
+                                <td><input type="text" name="project_title[]" id="project_title_<?php echo $index; ?>" value="<?php echo esc_attr($project['title']); ?>" class="regular-text"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="project_description_<?php echo $index; ?>">프로젝트 설명</label></th>
+                                <td><textarea name="project_description[]" id="project_description_<?php echo $index; ?>" rows="5" class="large-text"><?php echo esc_textarea($project['description']); ?></textarea></td>
+                            </tr>
+                            <tr>
+                                <th><label for="project_duration_<?php echo $index; ?>">기간</label></th>
+                                <td><input type="text" name="project_duration[]" id="project_duration_<?php echo $index; ?>" value="<?php echo esc_attr($project['duration']); ?>" class="regular-text"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="project_role_<?php echo $index; ?>">역할</label></th>
+                                <td><input type="text" name="project_role[]" id="project_role_<?php echo $index; ?>" value="<?php echo esc_attr($project['role']); ?>" class="regular-text"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="project_technologies_<?php echo $index; ?>">사용 기술</label></th>
+                                <td><input type="text" name="project_technologies[]" id="project_technologies_<?php echo $index; ?>" value="<?php echo esc_attr($project['technologies']); ?>" class="regular-text"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="project_url_<?php echo $index; ?>">프로젝트 URL</label></th>
+                                <td><input type="url" name="project_url[]" id="project_url_<?php echo $index; ?>" value="<?php echo esc_url($project['url']); ?>" class="regular-text"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="project_image_<?php echo $index; ?>">프로젝트 이미지</label></th>
+                                <td>
+                                    <div class="file-upload-container">
+                                        <input type="file" name="project_image[]" id="project_image_<?php echo $index; ?>" accept="image/*">
+                                        <?php if (isset($project['image_id'])): ?>
+                                            <input type="hidden" name="project_image_id[]" value="<?php echo esc_attr($project['image_id']); ?>">
+                                            <div class="file-preview">
+                                                <?php echo wp_get_attachment_image($project['image_id'], 'thumbnail'); ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <button type="button" class="button remove-project" onclick="removeProject(this)">프로젝트 삭제</button>
+                        <hr>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <button type="button" class="button" onclick="addProject()">프로젝트 추가</button>
+            <?php submit_button('저장', 'primary', 'submit_projects'); ?>
+        </form>
+        
+        <script>
+        function addProject() {
+            var container = document.getElementById('projects-container');
+            var index = container.children.length;
+            var projectItem = document.createElement('div');
+            projectItem.className = 'project-item';
+            projectItem.innerHTML = `
+                <h3>프로젝트 #${index + 1}</h3>
+                <table class="form-table">
+                    <tr>
+                        <th><label for="project_title_${index}">프로젝트명</label></th>
+                        <td><input type="text" name="project_title[]" id="project_title_${index}" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th><label for="project_description_${index}">프로젝트 설명</label></th>
+                        <td><textarea name="project_description[]" id="project_description_${index}" rows="5" class="large-text"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th><label for="project_duration_${index}">기간</label></th>
+                        <td><input type="text" name="project_duration[]" id="project_duration_${index}" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th><label for="project_role_${index}">역할</label></th>
+                        <td><input type="text" name="project_role[]" id="project_role_${index}" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th><label for="project_technologies_${index}">사용 기술</label></th>
+                        <td><input type="text" name="project_technologies[]" id="project_technologies_${index}" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th><label for="project_url_${index}">프로젝트 URL</label></th>
+                        <td><input type="url" name="project_url[]" id="project_url_${index}" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th><label for="project_image_${index}">프로젝트 이미지</label></th>
+                        <td>
+                            <div class="file-upload-container">
+                                <input type="file" name="project_image[]" id="project_image_${index}" accept="image/*">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <button type="button" class="button remove-project" onclick="removeProject(this)">프로젝트 삭제</button>
+                <hr>
+            `;
+            container.appendChild(projectItem);
+        }
+        
+        function removeProject(button) {
+            if (confirm('이 프로젝트를 삭제하시겠습니까?')) {
+                button.parentElement.remove();
+                updateProjectNumbers();
+            }
+        }
+        
+        function updateProjectNumbers() {
+            var projects = document.querySelectorAll('.project-item');
+            projects.forEach(function(project, index) {
+                project.querySelector('h3').textContent = `프로젝트 #${index + 1}`;
+            });
+        }
+        </script>
+    </div>
+    <?php
+}
+?> 

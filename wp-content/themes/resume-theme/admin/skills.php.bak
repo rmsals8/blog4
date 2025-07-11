@@ -1,0 +1,114 @@
+<?php
+// 기술 스택 관리자 페이지
+function resume_skills_admin_page() {
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+
+    $message = '';
+    
+    // POST 데이터 처리
+    if (isset($_POST['submit_skills'])) {
+        // 보안 체크
+        check_admin_referer('resume_skills_nonce');
+        
+        // 현재 기술 저장
+        $current_skills = array();
+        if (isset($_POST['current_skills']) && is_array($_POST['current_skills'])) {
+            foreach ($_POST['current_skills'] as $skill) {
+                $current_skills[] = sanitize_text_field($skill);
+            }
+        }
+        update_option('resume_current_skills', $current_skills);
+        
+        // 사용 경험 기술 저장
+        $experienced_skills = array();
+        if (isset($_POST['experienced_skills']) && is_array($_POST['experienced_skills'])) {
+            foreach ($_POST['experienced_skills'] as $skill) {
+                $experienced_skills[] = sanitize_text_field($skill);
+            }
+        }
+        update_option('resume_experienced_skills', $experienced_skills);
+        
+        $message = '<div class="notice notice-success"><p>기술 스택이 성공적으로 저장되었습니다.</p></div>';
+    }
+    
+    // 저장된 데이터 불러오기
+    $current_skills = get_option('resume_current_skills', array());
+    $experienced_skills = get_option('resume_experienced_skills', array());
+    
+    ?>
+    <div class="wrap">
+        <h1>기술 스택 관리</h1>
+        <?php echo $message; ?>
+        
+        <form method="post">
+            <?php wp_nonce_field('resume_skills_nonce'); ?>
+            
+            <h2>현재 보유 기술</h2>
+            <div class="skills-container" id="current-skills">
+                <?php foreach ($current_skills as $index => $skill): ?>
+                    <div class="skill-item">
+                        <input type="text" name="current_skills[]" value="<?php echo esc_attr($skill); ?>">
+                        <a href="#" class="remove-skill">삭제</a>
+                    </div>
+                <?php endforeach; ?>
+                <div class="skill-item">
+                    <input type="text" name="current_skills[]" value="">
+                    <a href="#" class="remove-skill">삭제</a>
+                </div>
+            </div>
+            <button type="button" class="button" onclick="addSkill('current-skills')">기술 추가</button>
+            
+            <h2>사용 경험 기술</h2>
+            <div class="skills-container" id="experienced-skills">
+                <?php foreach ($experienced_skills as $index => $skill): ?>
+                    <div class="skill-item">
+                        <input type="text" name="experienced_skills[]" value="<?php echo esc_attr($skill); ?>">
+                        <a href="#" class="remove-skill">삭제</a>
+                    </div>
+                <?php endforeach; ?>
+                <div class="skill-item">
+                    <input type="text" name="experienced_skills[]" value="">
+                    <a href="#" class="remove-skill">삭제</a>
+                </div>
+            </div>
+            <button type="button" class="button" onclick="addSkill('experienced-skills')">기술 추가</button>
+            
+            <?php submit_button('저장', 'primary', 'submit_skills'); ?>
+        </form>
+        
+        <script>
+        function addSkill(containerId) {
+            var container = document.getElementById(containerId);
+            var skillItem = document.createElement('div');
+            skillItem.className = 'skill-item';
+            skillItem.innerHTML = `
+                <input type="text" name="${containerId === 'current-skills' ? 'current_skills[]' : 'experienced_skills[]'}" value="">
+                <a href="#" class="remove-skill">삭제</a>
+            `;
+            container.appendChild(skillItem);
+            
+            // 새로 추가된 삭제 버튼에 이벤트 리스너 추가
+            var removeButton = skillItem.querySelector('.remove-skill');
+            removeButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.parentElement.remove();
+            });
+        }
+        
+        // 기존 삭제 버튼들에 이벤트 리스너 추가
+        document.addEventListener('DOMContentLoaded', function() {
+            var removeButtons = document.querySelectorAll('.remove-skill');
+            removeButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.parentElement.remove();
+                });
+            });
+        });
+        </script>
+    </div>
+    <?php
+}
+?> 

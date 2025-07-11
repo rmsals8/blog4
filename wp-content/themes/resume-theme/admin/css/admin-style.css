@@ -1,0 +1,373 @@
+/* 관리자 페이지 스타일 - 나근민 디자인 */
+.wrap {
+    max-width: 1000px;
+    margin: 20px;
+    padding: 0;
+    font-family: 'Noto Sans KR', '맑은 고딕', 'Malgun Gothic', sans-serif;
+}
+
+/* 페이지 제목 */
+.wrap h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #4285f4;
+    color: #333;
+}
+
+/* 탭 네비게이션 */
+.nav-tab-wrapper {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 30px;
+}
+
+.nav-tab {
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    color: #555;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin-right: 5px;
+    font-weight: 500;
+}
+
+.nav-tab-active {
+    background: #4285f4;
+    border-color: #4285f4;
+    color: #fff;
+}
+
+.nav-tab:hover {
+    background: #e7f3ff;
+    color: #4285f4;
+}
+
+.nav-tab-active:hover {
+    background: #4285f4;
+    color: #fff;
+}
+
+/* 폼 테이블 */
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.form-table th {
+    width: 200px;
+    padding: 15px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    font-weight: 600;
+    color: #333;
+    background: #f8f9fa;
+    font-size: 14px;
+}
+
+.form-table td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+/* 폼 필드 */
+.form-table input[type="text"],
+.form-table input[type="email"],
+.form-table input[type="url"],
+.form-table input[type="tel"],
+.form-table input[type="number"],
+.form-table input[type="date"],
+.form-table textarea,
+.form-table select {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+.form-table input[type="text"]:focus,
+.form-table input[type="email"]:focus,
+.form-table input[type="url"]:focus,
+.form-table input[type="tel"]:focus,
+.form-table input[type="number"]:focus,
+.form-table input[type="date"]:focus,
+.form-table textarea:focus,
+.form-table select:focus {
+    outline: none;
+    border-color: #4285f4;
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+.form-table textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+/* 파일 업로드 */
+.form-table input[type="file"] {
+    padding: 8px 0;
+    border: none;
+}
+
+/* 체크박스와 라디오 버튼 */
+.form-table input[type="checkbox"],
+.form-table input[type="radio"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* 버튼 스타일 */
+.button-primary {
+    background: #4285f4;
+    border-color: #4285f4;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.button-primary:hover,
+.button-primary:focus {
+    background: #3367d6;
+    border-color: #3367d6;
+    color: #fff;
+}
+
+.button-secondary {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.button-secondary:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* 알림 메시지 */
+.notice {
+    margin: 20px 0;
+    padding: 12px 15px;
+    border-radius: 4px;
+    border-left: 4px solid;
+    font-size: 14px;
+}
+
+.notice-success {
+    background: #f0f9f0;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.notice-error {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.notice-warning {
+    background: #fff3cd;
+    border-color: #ffc107;
+    color: #856404;
+}
+
+.notice-info {
+    background: #d1ecf1;
+    border-color: #17a2b8;
+    color: #0c5460;
+}
+
+/* 추가/제거 버튼 */
+.add-row,
+.remove-row {
+    padding: 6px 12px;
+    font-size: 13px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px 5px 5px 0;
+}
+
+.add-row:hover {
+    background: #4285f4;
+    color: #fff;
+    border-color: #4285f4;
+}
+
+.remove-row {
+    background: #dc3545;
+    color: #fff;
+    border-color: #dc3545;
+}
+
+.remove-row:hover {
+    background: #c82333;
+    border-color: #bd2130;
+    color: #fff;
+}
+
+/* 반복 필드 */
+.repeater-row {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fafafa;
+    position: relative;
+}
+
+.repeater-row:last-child {
+    margin-bottom: 15px;
+}
+
+.repeater-row .remove-row {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* 스킬 관리 섹션 */
+.skills-section {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+.skills-section h3 {
+    color: #4285f4;
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.skill-fields {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr auto;
+    gap: 10px;
+    align-items: end;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+.skill-fields select,
+.skill-fields input {
+    margin: 0;
+    max-width: none;
+}
+
+/* 프로젝트 관리 섹션 */
+.project-section {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+.project-section h3 {
+    color: #4285f4;
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 미리보기 이미지 */
+.photo-preview {
+    max-width: 150px;
+    max-height: 180px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+    display: none;
+}
+
+/* 도움말 텍스트 */
+.description {
+    font-size: 13px;
+    color: #666;
+    font-style: italic;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+/* 테이블 스타일링 */
+.wp-list-table {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.wp-list-table th {
+    background: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+}
+
+.wp-list-table td {
+    border-bottom: 1px solid #eee;
+}
+
+.wp-list-table tr:hover {
+    background: #f9f9f9;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .form-table th {
+        width: 150px;
+        font-size: 13px;
+    }
+    
+    .form-table th,
+    .form-table td {
+        padding: 10px;
+    }
+    
+    .skill-fields {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .form-table input,
+    .form-table textarea,
+    .form-table select {
+        max-width: none;
+    }
+}

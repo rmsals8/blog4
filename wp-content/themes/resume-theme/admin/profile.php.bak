@@ -1,0 +1,116 @@
+<?php
+// 프로필 관리자 페이지
+function resume_profile_admin_page() {
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+
+    $message = '';
+    
+    // POST 데이터 처리
+    if (isset($_POST['submit_profile'])) {
+        // 보안 체크
+        check_admin_referer('resume_profile_nonce');
+        
+        // 프로필 데이터 저장
+        update_option('resume_name', sanitize_text_field($_POST['name']));
+        update_option('resume_email', sanitize_email($_POST['email']));
+        update_option('resume_phone', sanitize_text_field($_POST['phone']));
+        update_option('resume_address', sanitize_text_field($_POST['address']));
+        update_option('resume_website', esc_url_raw($_POST['website']));
+        update_option('resume_github', esc_url_raw($_POST['github']));
+        update_option('resume_linkedin', esc_url_raw($_POST['linkedin']));
+        update_option('resume_about', wp_kses_post($_POST['about']));
+        
+        // 프로필 이미지 처리
+        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['size'] > 0) {
+            require_once(ABSPATH . 'wp-admin/includes/image.php');
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+            require_once(ABSPATH . 'wp-admin/includes/media.php');
+            
+            $attachment_id = media_handle_upload('profile_image', 0);
+            
+            if (is_wp_error($attachment_id)) {
+                $message = '<div class="notice notice-error"><p>이미지 업로드 중 오류가 발생했습니다.</p></div>';
+            } else {
+                update_option('resume_profile_image', $attachment_id);
+                $message = '<div class="notice notice-success"><p>프로필이 성공적으로 저장되었습니다.</p></div>';
+            }
+        } else {
+            $message = '<div class="notice notice-success"><p>프로필이 성공적으로 저장되었습니다.</p></div>';
+        }
+    }
+    
+    // 저장된 데이터 불러오기
+    $name = get_option('resume_name', '');
+    $email = get_option('resume_email', '');
+    $phone = get_option('resume_phone', '');
+    $address = get_option('resume_address', '');
+    $website = get_option('resume_website', '');
+    $github = get_option('resume_github', '');
+    $linkedin = get_option('resume_linkedin', '');
+    $about = get_option('resume_about', '');
+    $profile_image_id = get_option('resume_profile_image', '');
+    
+    ?>
+    <div class="wrap">
+        <h1>프로필 관리</h1>
+        <?php echo $message; ?>
+        
+        <form method="post" enctype="multipart/form-data">
+            <?php wp_nonce_field('resume_profile_nonce'); ?>
+            
+            <table class="form-table">
+                <tr>
+                    <th><label for="name">이름</label></th>
+                    <td><input type="text" name="name" id="name" value="<?php echo esc_attr($name); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th><label for="email">이메일</label></th>
+                    <td><input type="email" name="email" id="email" value="<?php echo esc_attr($email); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th><label for="phone">전화번호</label></th>
+                    <td><input type="tel" name="phone" id="phone" value="<?php echo esc_attr($phone); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th><label for="address">주소</label></th>
+                    <td><input type="text" name="address" id="address" value="<?php echo esc_attr($address); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th><label for="website">웹사이트</label></th>
+                    <td><input type="url" name="website" id="website" value="<?php echo esc_url($website); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th><label for="github">GitHub</label></th>
+                    <td><input type="url" name="github" id="github" value="<?php echo esc_url($github); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th><label for="linkedin">LinkedIn</label></th>
+                    <td><input type="url" name="linkedin" id="linkedin" value="<?php echo esc_url($linkedin); ?>" class="regular-text"></td>
+                </tr>
+                <tr>
+                    <th><label for="about">자기소개</label></th>
+                    <td><textarea name="about" id="about" rows="5" class="large-text"><?php echo esc_textarea($about); ?></textarea></td>
+                </tr>
+                <tr>
+                    <th><label for="profile_image">프로필 이미지</label></th>
+                    <td>
+                        <div class="file-upload-container">
+                            <input type="file" name="profile_image" id="profile_image" accept="image/*">
+                            <?php if ($profile_image_id): ?>
+                                <div class="file-preview">
+                                    <?php echo wp_get_attachment_image($profile_image_id, 'thumbnail'); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <?php submit_button('저장', 'primary', 'submit_profile'); ?>
+        </form>
+    </div>
+    <?php
+}
+?> 

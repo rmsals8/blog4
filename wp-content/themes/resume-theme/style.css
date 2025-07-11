@@ -1,0 +1,908 @@
+/* 프로젝트 메타 정보 표 */
+.project-meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.project-meta-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f8f9fa;
+    font-size: 0.9rem;
+    vertical-align: top;
+}
+
+.project-meta-table tr:last-child td {
+    border-bottom: none;
+}
+
+.project-meta-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.project-meta-table .project-meta-label {
+    width: 25%;
+    font-weight: 600;
+    color: #555;
+    white-space: nowrap;
+}
+
+.project-meta-table .project-meta-value {
+    color: #666;
+}
+
+/* 프로젝트 기술 스택 표 */
+.project-tech-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.project-tech-table th {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 0.9rem;
+}
+
+.project-tech-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f8f9fa;
+    color: #555;
+    font-size: 0.9rem;
+    vertical-align: top;
+}
+
+.project-tech-table tr:last-child td {
+    border-bottom: none;
+}
+
+.project-tech-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.project-tech-table th:first-child,
+.project-tech-table td:first-child {
+    width: 25%;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Resume Theme - Clean Design */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f5f5f5;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* 프로필 섹션 */
+.profile-header {
+    background: #fff;
+    padding: 40px;
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-photo {
+    width: 120px !important;
+    height: 160px !important;
+    border-radius: 8px !important;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid #e9ecef !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.profile-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 8px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+.contact-label {
+    font-weight: 600;
+    min-width: 80px;
+    color: #555;
+}
+
+.contact-value {
+    color: #333;
+}
+
+.contact-value a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-value a:hover {
+    text-decoration: underline;
+}
+
+/* 섹션 공통 스타일 */
+.resume-section {
+    padding: 40px;
+    border-bottom: 1px solid #eee;
+}
+
+.resume-section:last-child {
+    border-bottom: none;
+}
+
+.resume-section h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.resume-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #007bff;
+    border-radius: 2px;
+}
+
+/* About Me 섹션 */
+.about-content {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #555;
+}
+
+/* 자동 점 리스트 스타일 */
+.auto-bullet-list {
+    padding-left: 0;
+    margin: 0;
+}
+
+.auto-bullet-item {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 12px;
+    color: #444;
+    line-height: 1.7;
+}
+
+.auto-bullet-item::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* 기존 ul/li 스타일 (호환성 유지) */
+.about-content ul {
+    list-style: none !important;
+    list-style-type: none !important;
+    padding-left: 0;
+}
+
+.about-content li {
+    list-style: none !important;
+    list-style-type: none !important;
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 12px;
+    color: #444;
+}
+
+.about-content li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* 기술 스택 섹션 */
+.skills-container {
+    margin-bottom: 30px;
+}
+
+.skills-category-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    padding: 12px 0;
+    border-bottom: 2px solid #f8f9fa;
+}
+
+.skills-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.skills-table th {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 0.9rem;
+}
+
+.skills-table td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f8f9fa;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.skills-table tr:last-child td {
+    border-bottom: none;
+}
+
+.skills-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* 프로젝트 섹션 */
+.project-item {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 25px;
+}
+
+.project-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.project-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 20px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.project-meta-label {
+    font-weight: 600;
+    color: #555;
+    white-space: nowrap;
+}
+
+.project-meta-value {
+    color: #666;
+}
+
+.project-details {
+    margin-bottom: 20px;
+}
+
+.project-details ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.project-details li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 8px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.project-details li::before {
+    content: '•';
+    position: absolute;
+    left: 8px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.project-details h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.project-links {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.project-links strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.project-links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.project-links a:hover {
+    text-decoration: underline;
+}
+
+/* 자격증 섹션 */
+.certification-item {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 15px;
+}
+
+.certification-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.certification-details {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+.certification-file {
+    margin-top: 10px;
+}
+
+.certification-file a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.certification-file a:hover {
+    background: #0056b3;
+}
+
+/* 활동/경험, 학력, 교육 섹션 */
+.activity-item, .education-item, .training-item {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.activity-title, .education-school, .training-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.education-degree, .training-organization {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+
+.education-period, .training-period {
+    color: #888;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+}
+
+/* 빈 데이터 메시지 */
+.no-data-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+    font-style: italic;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+/* 관리자 알림 */
+.admin-notice {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #856404;
+}
+
+.admin-notice a {
+    color: #856404;
+    font-weight: 600;
+}
+
+/* 자격증 미리보기 모달 */
+.cert-preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: none;
+}
+
+.cert-preview-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+}
+
+.cert-preview-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 1000px;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cert-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.cert-preview-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.cert-preview-close {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.cert-preview-close:hover {
+    background-color: #e9ecef;
+}
+
+.cert-preview-content {
+    padding: 0;
+    max-height: calc(90vh - 120px);
+    overflow: auto;
+}
+
+.cert-preview-content iframe {
+    width: 100%;
+    height: 600px;
+    border: none;
+}
+
+.cert-preview-footer {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    text-align: center;
+    border-top: 1px solid #e9ecef;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        border-radius: 8px;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 30px 20px;
+    }
+    
+    .profile-photo {
+        width: 100px !important;
+        height: 130px !important;
+    }
+    
+    .profile-info h1 {
+        font-size: 1.5rem;
+    }
+    
+    .contact-info {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+    
+    .resume-section {
+        padding: 30px 20px;
+    }
+    
+    .resume-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .project-meta {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+    
+    .cert-preview-container {
+        width: 95%;
+    }
+    
+    .cert-preview-content iframe {
+        height: 400px;
+    }
+}
+
+/* 프린트 스타일 */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+        font-size: 10px; /* 기본 폰트 크기 더 축소 */
+        line-height: 1.2; /* 줄간격 더 축소 */
+    }
+    
+    .container {
+        box-shadow: none;
+        border-radius: 0;
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    /* 프로필 섹션 - 사진 아래로 내리고 오른쪽에 정보 배치 */
+    .profile-header {
+        padding: 15px;
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        border-bottom: 1px solid #eee;
+        position: relative;
+    }
+    
+    .profile-photo {
+        width: 80px !important;
+        height: 100px !important;
+        border-radius: 4px !important;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 1px solid #e9ecef !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
+        position: absolute;
+        left: 0;
+        top: -5px;
+    }
+    
+    .profile-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-left: 95px;
+    }
+    
+    .profile-info::before {
+        display: none;
+    }
+    
+    .profile-name-section {
+        margin-bottom: 8px;
+    }
+    
+    .profile-name-container {
+        flex: 1;
+        margin-left: -30px;
+    }
+    
+    .profile-info h1 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 0;
+        display: inline;
+    }
+    
+    .profile-subtitle {
+        font-size: 0.7rem;
+        color: #666;
+        font-weight: 400;
+        display: inline;
+        margin-left: 5px;
+        margin-bottom: 6px;
+    }
+    
+    .contact-info {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3px 10px;
+        margin-top: 6px;
+    }
+    
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.6rem;
+    }
+    
+    .contact-item:nth-child(3) {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.6rem;
+    }
+    
+    .contact-item:nth-child(3):after {
+        display: none;
+    }
+    
+    .contact-item:nth-child(4),
+    .contact-item:nth-child(5),
+    .contact-item:nth-child(6) {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.6rem;
+        margin-top: 0;
+    }
+    
+    .contact-label {
+        font-weight: 600;
+        min-width: 45px;
+        color: #555;
+    }
+    
+    .contact-value {
+        color: #333;
+    }
+    
+    .contact-value a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    /* 섬션 간격 더 축소 */
+    .resume-section {
+        padding: 10px 15px;
+    }
+    
+    .resume-section h2 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+    
+    /* 프로젝트, 자격증 등 아이템 간격 더 축소 */
+    .project-item, .certification-item, .activity-item, .education-item, .training-item {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+        padding: 8px;
+        margin-bottom: 5px;
+        font-size: 0.7rem;
+    }
+    
+    .project-title, .certification-name, .activity-title, .education-school, .training-title {
+        font-size: 0.8rem;
+        margin-bottom: 3px;
+    }
+    
+    /* 프로젝트 메타 정보 크기 축소 */
+    .project-meta {
+        font-size: 0.6rem;
+        gap: 5px 10px;
+        margin-bottom: 8px;
+    }
+    
+    .project-meta-label {
+        font-weight: 600;
+        color: #555;
+    }
+    
+    .project-meta-value {
+        color: #666;
+    }
+    
+    /* 프로젝트 세부사항 크기 축소 */
+    .project-details {
+        margin-bottom: 8px;
+    }
+    
+    .project-details h4 {
+        font-size: 0.7rem;
+        margin-bottom: 4px;
+    }
+    
+    .project-details .auto-bullet-item {
+        font-size: 0.6rem;
+        margin-bottom: 3px;
+        line-height: 1.2;
+        padding-left: 12px;
+    }
+    
+    /* 참고자료 부분 글씨 크기 매칭 */
+    .project-links {
+        font-size: 0.6rem;
+        padding: 6px;
+        margin-bottom: 6px;
+    }
+    
+    .project-links strong {
+        font-size: 0.6rem;
+        margin-bottom: 3px;
+    }
+    
+    /* 테이블 여백 더 축소 */
+    .skills-table th,
+    .skills-table td {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+    }
+    
+    /* 프로젝트 메타 정보 표 */
+    .project-meta-table td {
+        padding: 4px 6px;
+        font-size: 0.7rem;
+    }
+    
+    .project-tech-table th,
+    .project-tech-table td {
+        padding: 4px 6px;
+        font-size: 0.7rem;
+    }
+    
+    .skills-category-title {
+        font-size: 0.8rem;
+        margin-bottom: 8px;
+    }
+    
+    /* About Me 섬션 */
+    .auto-bullet-item {
+        font-size: 0.7rem;
+        margin-bottom: 6px;
+        line-height: 1.3;
+    }
+    
+    /* 인쇄 시 파일 보기 버튼들 숨기기 */
+    .certification-preview-btn,
+    .activity-file a,
+    .education-file a,
+    .certification-file a,
+    .training-file a {
+        display: none !important;
+    }
+    
+    /* 인쇄 버튼 숨기기 */
+    button[onclick="window.print()"],
+    input[onclick="window.print()"],
+    .print-button,
+    [class*="print"] {
+        display: none !important;
+    }
+    
+    /* 페이지 번호 추가 */
+    @page {
+        margin: 1.5cm;
+        @bottom-center {
+            content: "- " counter(page) " -";
+            font-size: 9px;
+            color: #666;
+        }
+    }
+}
