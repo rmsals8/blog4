@@ -1,3 +1,6 @@
-uploads/
+/# Ignore top-level uploads directory
+/uploads/
+
+# Allow wp-content/uploads directory and everything inside it
 !wp-content/uploads/
-# wp-content/uploads/  # (commented out to allow committing uploads folder)
+!wp-content/uploads/**
