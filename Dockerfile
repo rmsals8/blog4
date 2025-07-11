@@ -21,7 +21,8 @@ RUN curl -sSL https://wordpress.org/latest.tar.gz | tar -xz --strip-components=1
 
 # --- Copy custom theme and plugin ---
 COPY wp-content/themes/resume-theme    /var/www/html/wp-content/themes/resume-theme
-COPY wp-content/plugins/resume-manager /var/www/html/wp-content/plugins/resume-manager
+# NOTE: resume-manager plugin directory is currently empty; comment out to avoid build failure
+# COPY wp-content/plugins/resume-manager /var/www/html/wp-content/plugins/resume-manager
 
 # --- Set ownership ---
 RUN chown -R www-data:www-data /var/www/html
