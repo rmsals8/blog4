@@ -82,6 +82,16 @@
     $activities = get_safe_activities_data();
     $certifications = get_safe_certifications_data();
     $trainings = get_safe_training_data();
+    // Awards
+    function get_safe_awards_data() {
+        global $wpdb;
+        $table = $wpdb->prefix . 'resume_awards';
+        if ($wpdb->get_var("SHOW TABLES LIKE '$table'") != $table) {
+            return array();
+        }
+        return $wpdb->get_results("SELECT * FROM $table ORDER BY award_date DESC");
+    }
+    $awards = get_safe_awards_data();
     
     // 테이블이 없거나 데이터가 없을 때 관리자에게 알림
     $missing_tables = array();
@@ -283,8 +293,14 @@
                             </tr>
                             <tr>
                                 <td class="project-meta-label">인력 구성</td>
-                                <td class="project-meta-value"><?php echo $project->team_size ? esc_html($project->team_size) : '개인 프로젝트'; ?></td>
+                                <td class="project-meta-value"><?php echo $project->organization ? esc_html($project->organization) : ($project->team_size ? esc_html($project->team_size) : '개인 프로젝트'); ?></td>
                             </tr>
+                            <?php if ($project->role): ?>
+                            <tr>
+                                <td class="project-meta-label">역할</td>
+                                <td class="project-meta-value"><?php echo esc_html($project->role); ?></td>
+                            </tr>
+                            <?php endif; ?>
                             <tr>
                                 <td class="project-meta-label">프로젝트 목적</td>
                                 <td class="project-meta-value"><?php echo esc_html($project->description); ?></td>
@@ -366,10 +382,22 @@
                         <div class="project-links">
                             <strong>참고자료</strong><br>
                             <?php if ($project->github_url): ?>
-                                GitHub: <a href="<?php echo esc_url($project->github_url); ?>" target="_blank"><?php echo esc_url($project->github_url); ?></a><br>
+                                GitHub:
+                                <?php
+                                $links = array_filter(array_map('trim', explode(',', $project->github_url)));
+                                $first = true;
+                                foreach ($links as $link) {
+                                    if (!$first) echo ', ';
+                                    $first = false;
+                                    $esc = esc_url($link);
+                                    echo '<a href="' . $esc . '" target="_blank">' . $esc . '</a>';
+                                }
+                                ?>
+                                <br>
                             <?php endif; ?>
                             <?php if ($project->demo_url): ?>
-                                실제 서비스 운영 중: <a href="<?php echo esc_url($project->demo_url); ?>" target="_blank"><?php echo esc_url($project->demo_url); ?></a>
+                                <?php $demo_label = !empty($project->demo_url_label) ? $project->demo_url_label : '실제 서비스 운영 중'; ?>
+                                <?php echo esc_html($demo_label); ?>: <a href="<?php echo esc_url($project->demo_url); ?>" target="_blank"><?php echo esc_url($project->demo_url); ?></a>
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>
@@ -553,6 +581,34 @@
                     </div>
                 <?php endif; ?>
             </div>
+        <?php endforeach; ?>
+    </section>
+    <?php endif; ?>
+
+    <!-- 수상 이력 섹션 -->
+    <?php if (!empty($awards)): ?>
+    <section class="resume-section">
+        <h2>수상 이력</h2>
+        <?php foreach ($awards as $award): ?>
+        <div class="training-item award-item">
+            <h3 class="award-title">
+                <?php echo esc_html($award->title); ?>
+                <?php if ($award->organization) echo ' - ' . esc_html($award->organization); ?>
+            </h3>
+            <div class="award-date">
+                <?php if ($award->award_date) echo esc_html(date('Y.m.d', strtotime($award->award_date))); ?>
+            </div>
+            <?php if ($award->description): ?>
+            <div class="award-description"><?php echo wp_kses_post($award->description); ?></div>
+            <?php endif; ?>
+            <?php if ($award->certificate_file): ?>
+            <div class="award-file">
+                <a href="<?php echo esc_url($award->certificate_file); ?>" target="_blank" class="certification-preview-btn" data-filename="<?php echo esc_attr($award->title); ?>">
+                    <i class="fas fa-file-alt"></i> 상장 보기
+                </a>
+            </div>
+            <?php endif; ?>
+        </div>
         <?php endforeach; ?>
     </section>
     <?php endif; ?>

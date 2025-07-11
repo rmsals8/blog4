@@ -19,6 +19,7 @@ require_once get_template_directory() . '/admin/education-admin.php';
 require_once get_template_directory() . '/admin/activities-admin.php';
 require_once get_template_directory() . '/admin/certifications-admin.php';
 require_once get_template_directory() . '/admin/training-admin.php';
+require_once get_template_directory() . '/admin/awards-admin.php';
 require_once get_template_directory() . '/admin/download-admin.php';
 
 // 테마 활성화 시 테이블 강제 재생성
@@ -209,6 +210,15 @@ function resume_register_admin_menu() {
         'manage_options',
         'resume-training',
         'resume_training_page'
+    );
+
+    add_submenu_page(
+        'resume-education',
+        '수상 이력',
+        '수상 이력',
+        'manage_options',
+        'resume-awards',
+        'resume_awards_page'
     );
 }
 add_action('admin_menu', 'resume_register_admin_menu');

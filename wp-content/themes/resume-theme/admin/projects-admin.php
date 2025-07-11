@@ -7,6 +7,15 @@ function resume_projects_page() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'resume_projects';
     
+    // demo_url_label 컬럼 확인 후 없으면 추가
+    $columns = $wpdb->get_col("DESCRIBE $table_name");
+    if (!in_array('demo_url_label', $columns)) {
+        $wpdb->query("ALTER TABLE $table_name ADD COLUMN demo_url_label VARCHAR(255) DEFAULT ''");
+    }
+
+    // 기본 라벨
+    $demo_url_label = '실제 서비스 URL';
+
     // 프로젝트 데이터 저장 (신규 또는 수정)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_project'])) {
         if (isset($_POST['project_id']) && !empty($_POST['project_id'])) {
@@ -24,10 +33,11 @@ function resume_projects_page() {
                     'responsibilities' => sanitize_textarea_field($_POST['responsibilities']),
                     'achievements' => sanitize_textarea_field($_POST['achievements']),
                     'github_url' => esc_url_raw($_POST['github_url']),
-                    'demo_url' => esc_url_raw($_POST['demo_url'])
+                    'demo_url' => esc_url_raw($_POST['demo_url']),
+                    'demo_url_label' => sanitize_text_field($_POST['demo_url_label'])
                 ),
                 array('id' => intval($_POST['project_id'])),
-                array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'),
+                array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'),
                 array('%d')
             );
             
@@ -51,9 +61,10 @@ function resume_projects_page() {
                     'responsibilities' => sanitize_textarea_field($_POST['responsibilities']),
                     'achievements' => sanitize_textarea_field($_POST['achievements']),
                     'github_url' => esc_url_raw($_POST['github_url']),
-                    'demo_url' => esc_url_raw($_POST['demo_url'])
+                    'demo_url' => esc_url_raw($_POST['demo_url']),
+                    'demo_url_label' => sanitize_text_field($_POST['demo_url_label'])
                 ),
-                array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
+                array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
             );
 
             if ($result !== false) {
@@ -83,6 +94,13 @@ function resume_projects_page() {
     if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['id'])) {
         $edit_project = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", intval($_GET['id'])));
     }
+
+    // 편집 모드 또는 기본 입력값 반영
+    if ($edit_project && isset($edit_project->demo_url_label) && $edit_project->demo_url_label !== '') {
+        $demo_url_label = $edit_project->demo_url_label;
+    } elseif (isset($_POST['demo_url_label'])) {
+        $demo_url_label = sanitize_text_field($_POST['demo_url_label']);
+    }
     
     ?>
     <div class="wrap">
@@ -102,7 +120,7 @@ function resume_projects_page() {
                     <td><input type="text" id="title" name="title" class="regular-text" value="<?php echo $edit_project ? esc_attr($edit_project->title) : ''; ?>" required></td>
                 </tr>
                 <tr>
-                    <th><label for="organization">소속 조직</label></th>
+                    <th><label for="organization">인력 구성</label></th>
                     <td><input type="text" id="organization" name="organization" class="regular-text" value="<?php echo $edit_project ? esc_attr($edit_project->organization) : ''; ?>" required></td>
                 </tr>
                 <tr>
@@ -238,7 +256,11 @@ function resume_projects_page() {
                     <td><input type="url" id="github_url" name="github_url" class="regular-text" value="<?php echo $edit_project ? esc_attr($edit_project->github_url) : ''; ?>"></td>
                 </tr>
                 <tr>
-                    <th><label for="demo_url">실제 서비스 URL</label></th>
+                    <th><label for="demo_url_label">Demo URL 열 이름</label></th>
+                    <td><input type="text" id="demo_url_label" name="demo_url_label" class="regular-text" value="<?php echo esc_attr($demo_url_label); ?>"></td>
+                </tr>
+                <tr>
+                    <th><label for="demo_url"><?php echo esc_html($demo_url_label); ?></label></th>
                     <td><input type="url" id="demo_url" name="demo_url" class="regular-text" value="<?php echo $edit_project ? esc_attr($edit_project->demo_url) : ''; ?>"></td>
                 </tr>
             </table>
@@ -256,7 +278,7 @@ function resume_projects_page() {
             <thead>
                 <tr>
                     <th>프로젝트명</th>
-                    <th>소속 조직</th>
+                    <th>인력 구성</th>
                     <th>역할</th>
                     <th>기간</th>
                     <th>GitHub</th>
