@@ -4,7 +4,7 @@ services:
   wordpress:
     build: .
     ports:
-      - "8090:80"
+      - "8080:8080"
     # For local development you can place real credentials in a .env file (ignored by git).
     # Compose will automatically load variables from .env and substitute below.
     env_file:
