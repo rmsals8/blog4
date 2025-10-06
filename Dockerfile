@@ -20,7 +20,7 @@ RUN mkdir -p /var/www/html/wp-content/uploads && \
 RUN curl -sSL https://wordpress.org/latest.tar.gz | tar -xz --strip-components=1 -C /var/www/html
 
 # --- Copy custom theme and plugin ---
-COPY wp-content/themes/resume-theme    /var/www/html/wp-content/themes/resume-theme
+COPY wp-content/themes/twentytwelve    /var/www/html/wp-content/themes/twentytwelve
 # NOTE: resume-manager plugin directory is currently empty; comment out to avoid build failure
 # COPY wp-content/plugins/resume-manager /var/www/html/wp-content/plugins/resume-manager
 
